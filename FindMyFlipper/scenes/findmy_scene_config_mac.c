@@ -1,8 +1,17 @@
 #include "../findmy_i.h"
 
+static void reverse_mac_address(uint8_t* mac, size_t length) {
+    for(size_t i = 0; i < length / 2; ++i) {
+        uint8_t temp = mac[i];
+        mac[i] = mac[length - 1 - i];
+        mac[length - 1 - i] = temp;
+    }
+}
+
 enum ByteInputResult {
     ByteInputResultOk,
 };
+
 
 static void findmy_scene_config_mac_callback(void* context) {
     FindMy* app = context;
@@ -17,7 +26,7 @@ void findmy_scene_config_mac_on_enter(void* context) {
     byte_input_set_header_text(byte_input, "Enter Bluetooth MAC:");
 
     memcpy(app->mac_buf, app->state.mac, sizeof(app->mac_buf));
-    furi_hal_bt_reverse_mac_addr(app->mac_buf);
+    reverse_mac_address(app->mac_buf, sizeof(app->mac_buf));
 
     byte_input_set_result_callback(
         byte_input,
@@ -38,7 +47,7 @@ bool findmy_scene_config_mac_on_event(void* context, SceneManagerEvent event) {
         consumed = true;
         switch(event.event) {
         case ByteInputResultOk:
-            furi_hal_bt_reverse_mac_addr(app->mac_buf);
+            reverse_mac_address(app->mac_buf, sizeof(app->mac_buf));
             memcpy(&app->state.mac, app->mac_buf, sizeof(app->state.mac));
             findmy_state_sync_config(&app->state);
             findmy_state_save(&app->state);
