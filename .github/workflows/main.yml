@@ -31,7 +31,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
         with:
           tag_name: Dev_Release
-          release_name: Dev_Release
+          release_name: Dev_Release ${{steps.create_release.outputs.id}}
           draft: true
           prerelease: false
       
