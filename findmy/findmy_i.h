@@ -4,7 +4,7 @@
 #include "findmy_state.h"
 #include <furi_hal_bt.h>
 #include <extra_beacon.h>
-#include <assets_icons.h>
+// #include <assets_icons.h>
 #include "findmy_icons.h"
 #include <toolbox/stream/file_stream.h>
 #include <toolbox/hex.h>
