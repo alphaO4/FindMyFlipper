@@ -10,9 +10,12 @@ jobs:
   ufbt-build-action:
     runs-on: ubuntu-latest
     name: "ufbt: Build for dev channel"
-    
+
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: 'ofw'
+
       - name: Build with ufbt
         uses: flipperdevices/flipperzero-ufbt-action@v0.1.2
         id: build-app
