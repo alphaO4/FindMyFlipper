@@ -33,29 +33,12 @@ jobs:
           # Set to 'release' to build for latest published release version
           sdk-channel: ${{ matrix.sdk-channel }}
           app-dir: findmy
-
-      - name: Create Draft Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-        with:
-          tag_name: ${{ env.COMMIT_MESSAGE }}
-          release_name: Dev_Release ${{ env.COMMIT_MESSAGE }}
-          draft: true
-          prerelease: false
       
-      - uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+      - name: Get Release file
+        run: echo "faf-artifacts=$(ls ${{ steps.build-app.outputs.fap-artifacts }})"
+      
+      - name: Create Release
+        uses: google-github-actions/release-please-action@v4
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ steps.build-app.outputs.fap-artifacts }}
-          asset_name: ${{ github.event.repository.name }}.fap
-          asset_content_type: application/fap
-
-      - uses: eregon/publish-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-        with:
-          release_id: ${{ steps.create_release.outputs.id }}
+          token: ${{ secrets.RELEASE_TOKEN }}
+          path: ${{ steps.build-app.outputs.fap-artifacts }}
