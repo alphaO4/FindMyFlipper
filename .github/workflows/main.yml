@@ -43,7 +43,7 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          name: Dev Release ${{ env.COMMIT_MESSAGE }}
+          name: ${{ env.COMMIT_MESSAGE }}
           token: ${{ secrets.RELEASE_TOKEN }}
           files: ${{ steps.build-app.outputs.fap-artifacts }}
           generate_release_notes: true
