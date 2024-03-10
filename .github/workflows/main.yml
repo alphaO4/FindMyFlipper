@@ -23,9 +23,6 @@ jobs:
           ref: ofw
           sparse-checkout: findmy
 
-      - name: Get commit message
-        run: echo "COMMIT_MESSAGE=$(git log --format=%B -n 1 ${{ github.event.after }})" >> $GITHUB_ENV
-
       - name: Build with ufbt
         uses: flipperdevices/flipperzero-ufbt-action@v0.1.2
         id: build-app
@@ -33,12 +30,11 @@ jobs:
           # Set to 'release' to build for latest published release version
           sdk-channel: ${{ matrix.sdk-channel }}
           app-dir: findmy
-      
-      - name: Get Release file
-        run: echo "faf-artifacts=$(ls ${{ steps.build-app.outputs.fap-artifacts }})"
-      
+
       - name: Create Release
-        uses: google-github-actions/release-please-action@v4
+        uses: elgohr/Github-Release-Action@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
         with:
-          token: ${{ secrets.RELEASE_TOKEN }}
-          path: ${{ steps.build-app.outputs.fap-artifacts }}
+          title: Dev Release
+          workdir: ${{ steps.build-app.outputs.fap-artifacts }}
