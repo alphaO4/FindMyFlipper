@@ -41,7 +41,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ${{ steps.build-app.outputs.fap-artifacts }}
-          asset_name: ${{ github.event.repository.name }}-${{ steps.build-app.outputs.suffix }}
+          asset_name: ${{ github.event.repository.name }}.fap
           asset_content_type: application/fap
 
       - uses: eregon/publish-release@v1
