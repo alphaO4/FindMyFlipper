@@ -12,7 +12,6 @@ jobs:
     name: "ufbt: Build for dev channel"
     steps:
       - uses: actions/checkout@v2
-
       - name: Build with ufbt
         uses: flipperdevices/flipperzero-ufbt-action@v0.1.2
         id: build-app
