@@ -12,9 +12,10 @@ jobs:
     name: "ufbt: Build for dev channel"
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
-          ref: 'ofw'
+          ref: ofw
+          sparse-checkout: findmy
 
       - name: Build with ufbt
         uses: flipperdevices/flipperzero-ufbt-action@v0.1.2
