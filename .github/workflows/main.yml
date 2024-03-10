@@ -38,3 +38,4 @@ jobs:
           token: ${{ secrets.RELEASE_TOKEN }}
           files: ${{ steps.build-app.outputs.fap-artifacts }}
           generate_release_notes: true
+          tag: ${{github.ref}}
