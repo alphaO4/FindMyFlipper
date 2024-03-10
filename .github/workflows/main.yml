@@ -19,6 +19,7 @@ jobs:
         with:
           # Set to 'release' to build for latest published release version
           sdk-channel: dev
+          app-dir: findmy
 
       - name: Upload app artifacts
         uses: actions/upload-artifact@v3
