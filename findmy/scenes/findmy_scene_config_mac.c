@@ -1,5 +1,9 @@
 #include "../findmy_i.h"
 
+enum ByteInputResult {
+    ByteInputResultOk,
+};
+
 static void reverse_mac_address(uint8_t* mac, size_t length) {
     for(size_t i = 0; i < length / 2; ++i) {
         uint8_t temp = mac[i];
@@ -7,11 +11,6 @@ static void reverse_mac_address(uint8_t* mac, size_t length) {
         mac[length - 1 - i] = temp;
     }
 }
-
-enum ByteInputResult {
-    ByteInputResultOk,
-};
-
 
 static void findmy_scene_config_mac_callback(void* context) {
     FindMy* app = context;
