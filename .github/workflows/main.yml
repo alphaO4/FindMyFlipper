@@ -2,9 +2,9 @@ name: Build
 
 on:
   push:
-    branches: [master]
+    branches: [ofw]
   pull_request:
-    branches: [master]
+    branches: [ofw]
 
 jobs:
   ufbt-build-action:
