@@ -10,7 +10,6 @@ jobs:
   ufbt-build-action:
     runs-on: ubuntu-latest
     name: "ufbt: Build for dev channel"
-
     steps:
       - uses: actions/checkout@v4
         with:
@@ -25,11 +24,28 @@ jobs:
           sdk-channel: dev
           app-dir: findmy
 
-      - name: Github Release
-        uses: elgohr/Github-Release-Action@20231116201936
+      - name: Create Draft Release
+        id: create_release
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
         with:
-          title: Latest Dev Release
-
+          tag_name: Dev_Release
+          release_name: Dev_Release
+          draft: true
+          prerelease: false
       
+      - uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ steps.build-app.outputs.fap-artifacts }}
+          asset_name: ${{ github.event.repository.name }}-${{ steps.build-app.outputs.suffix }}
+          asset_content_type: application/fap
+
+      - uses: eregon/publish-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        with:
+          release_id: ${{ steps.create_release.outputs.id }}
