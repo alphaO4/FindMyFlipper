@@ -22,6 +22,7 @@ jobs:
         with:
           ref: ofw
           sparse-checkout: findmy
+
       - name: Get commit message
         run: echo "COMMIT_MESSAGE=$(git log --format=%B -n 1 ${{ github.event.after }})" >> $GITHUB_ENV
 
@@ -31,6 +32,7 @@ jobs:
         with:
           # Set to 'release' to build for latest published release version
           sdk-channel: ${{ matrix.sdk-channel }}
+          app-dir: findmy
 
       - name: Create Draft Release
         id: create_release
