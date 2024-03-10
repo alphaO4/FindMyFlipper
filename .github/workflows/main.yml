@@ -30,12 +30,15 @@ jobs:
           # Set to 'release' to build for latest published release version
           sdk-channel: ${{ matrix.sdk-channel }}
           app-dir: findmy
-
+      
+      - name: Get commit message
+        run: echo "COMMIT_MESSAGE=$(git log --format=%B -n 1 ${{ github.event.after }})" >> $GITHUB_ENV
+      
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          name: Dev Release
+          name: Dev Release ${{ env.COMMIT_MESSAGE }}
           token: ${{ secrets.RELEASE_TOKEN }}
           files: ${{ steps.build-app.outputs.fap-artifacts }}
           generate_release_notes: true
-          tag_name: ${{github.ref}}
+          tag_name: ${{github.sha}}
